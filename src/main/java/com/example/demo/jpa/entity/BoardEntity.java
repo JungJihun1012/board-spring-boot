@@ -15,8 +15,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class BoardEntity {
     @Id
-    @Column(name = "index")
-    private int index;
+    @Column(name = "`index`")
+    private Integer index;
     @Column(name = "title")
     private String title;
     @Column(name = "content")
