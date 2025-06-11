@@ -7,9 +7,8 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 import java.util.Optional;
 
-public interface BoardRepository extends JpaRepository<BoardEntity, String> {
+public interface BoardRepository extends JpaRepository<BoardEntity, Integer> {
     List<BoardEntity> findAllByOrderByIndexAsc();
-    BoardEntity findOneByIndex(int index);
-    BoardEntity findTopByOrderByIndexDesc();
-
+    Optional<BoardEntity> findByIndex(int idx);
+    BoardEntity getByIndex(int index);
 }

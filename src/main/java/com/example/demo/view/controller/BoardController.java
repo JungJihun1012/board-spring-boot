@@ -4,53 +4,45 @@ import com.example.demo.jpa.entity.BoardEntity;
 import com.example.demo.view.service.BoardService;
 import com.example.demo.view.vo.BoardResVO;
 import com.example.demo.view.vo.BoardSaveResVO;
-import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
+@RequestMapping("/board")
 public class BoardController {
 
     private final BoardService boardService;
 
     public BoardController(BoardService boardService) {
-        this.boardService = boardService;}
-
-    @GetMapping("/user")
-    public ResponseEntity<List<BoardEntity>> selectUser() {
-
-        return boardService.getUser();
+        this.boardService = boardService;
     }
-    @GetMapping("/idx")
-    public ResponseEntity<BoardEntity> selectGetIdx(@RequestParam("index") int idx) {
-        return boardService.getIdx(idx);
+
+    @GetMapping("/select")
+    public ResponseEntity<List<BoardEntity>> selectBoard() {
+        return boardService.selectBoard();
     }
-    @DeleteMapping("/delete")
-    public ResponseEntity<BoardEntity> deleteGetIdx(@RequestParam("index") int idx) {
+    @GetMapping("/selectIndex/{idx}")
+    public ResponseEntity<BoardSaveResVO> selectOptionalIndexBoard(@PathVariable int idx) {
+        return boardService.selectOptionalIndexBoard(idx);
+    }
+    @DeleteMapping("/delete/{idx}")
+    public ResponseEntity<BoardResVO> deleteBoard(@PathVariable String idx) {
         return boardService.deleteBoard(idx);
     }
-    @PostMapping("/save")
-    public ResponseEntity<BoardEntity> getInsert(@RequestBody BoardResVO boardResVO) {
-        if (
-                boardResVO == null ||
-                        boardResVO.getTitle().isBlank() ||
-                        boardResVO.getContent().isBlank() ||
-                        boardResVO.getTitle() == null ||
-                        boardResVO.getContent() == null
-        ) {
+    @PostMapping("/insert")
+    public ResponseEntity<BoardEntity> insertBoard(@RequestBody BoardResVO boardResVO) {
+        if (boardResVO == null || boardResVO.getTitle().isBlank() || boardResVO.getContent().isBlank() || boardResVO.getTitle() == null || boardResVO.getContent() == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
         BoardEntity saveEntity = boardService.saveBoard(boardResVO).getBody();
         return ResponseEntity.ok(saveEntity);
     }
-    @PutMapping("update/{index}")
-    public ResponseEntity<BoardEntity> updateBoard(@RequestBody BoardResVO boardResVO) {
-        return boardService.saveBoard(boardResVO);
-
+    @PutMapping("/update/{index}")
+    public ResponseEntity<BoardEntity> updateBoard(@PathVariable int index, @RequestBody BoardSaveResVO vo) {
+        return boardService.updateBoard(vo, index);
     }
 }
 
