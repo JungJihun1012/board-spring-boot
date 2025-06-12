@@ -19,7 +19,7 @@ public class BoardServiceImpl implements BoardService {
         this.boardRepository = boardRepository;
     }
     @Override
-    public ResponseEntity<List<BoardEntity>> selectBoard() {
+    public ResponseEntity<List<BoardEntity>> pathSelectBoard() {
         return ResponseEntity.ok(boardRepository.findAllByOrderByIndexAsc());
     }
     @Override
@@ -31,20 +31,19 @@ public class BoardServiceImpl implements BoardService {
         return ResponseEntity.ok(vo);
     }
     @Override
-    public ResponseEntity<BoardResVO> deleteBoard(String idx) {
-        if(!boardRepository.existsById(Integer.valueOf(idx))) {
+    public ResponseEntity<BoardResVO> deleteBoard(Integer idx) {
+        if(!boardRepository.existsById(idx)) {
             return ResponseEntity.notFound().build();
         }
-        boardRepository.deleteById(Integer.valueOf(idx));
+        boardRepository.deleteById(idx);
         return ResponseEntity.noContent().build();
     }
     @Transactional
     @Override
-    public ResponseEntity<BoardEntity> saveBoard(BoardResVO vo) {
+    public ResponseEntity<BoardEntity> insertBoard(BoardResVO vo) {
         BoardEntity entity = new BoardEntity();
         entity.setTitle(vo.getTitle());
         entity.setContent(vo.getContent());
-
         return ResponseEntity.ok(boardRepository.save(entity)); // insert
     }
     @Override

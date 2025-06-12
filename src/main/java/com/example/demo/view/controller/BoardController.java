@@ -20,16 +20,16 @@ public class BoardController {
         this.boardService = boardService;
     }
 
-    @GetMapping("/select")
-    public ResponseEntity<List<BoardEntity>> selectBoard() {
-        return boardService.selectBoard();
+    @GetMapping("/patchSelect")
+    public ResponseEntity<List<BoardEntity>> pathSelectBoard() {
+        return boardService.pathSelectBoard();
     }
-    @GetMapping("/selectIndex/{idx}")
+    @GetMapping("/select/{idx}")
     public ResponseEntity<BoardSaveResVO> selectOptionalIndexBoard(@PathVariable int idx) {
         return boardService.selectOptionalIndexBoard(idx);
     }
     @DeleteMapping("/delete/{idx}")
-    public ResponseEntity<BoardResVO> deleteBoard(@PathVariable String idx) {
+    public ResponseEntity<BoardResVO> deleteBoard(@PathVariable Integer idx) {
         return boardService.deleteBoard(idx);
     }
     @PostMapping("/insert")
@@ -37,7 +37,7 @@ public class BoardController {
         if (boardResVO == null || boardResVO.getTitle().isBlank() || boardResVO.getContent().isBlank() || boardResVO.getTitle() == null || boardResVO.getContent() == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
-        BoardEntity saveEntity = boardService.saveBoard(boardResVO).getBody();
+        BoardEntity saveEntity = boardService.insertBoard(boardResVO).getBody();
         return ResponseEntity.ok(saveEntity);
     }
     @PutMapping("/update/{index}")

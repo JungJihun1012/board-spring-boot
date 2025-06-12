@@ -9,9 +9,9 @@ import java.util.List;
 
 
 public interface BoardService {
-    ResponseEntity<List<BoardEntity>> selectBoard();
+    ResponseEntity<List<BoardEntity>> pathSelectBoard();
     ResponseEntity<BoardSaveResVO> selectOptionalIndexBoard(int idx);
-    ResponseEntity<BoardEntity> saveBoard(BoardResVO vo);
-    ResponseEntity<BoardResVO> deleteBoard(String idx);
+    ResponseEntity<BoardEntity> insertBoard(BoardResVO vo);
+    ResponseEntity<BoardResVO> deleteBoard(Integer idx);
     ResponseEntity<BoardEntity> updateBoard(BoardSaveResVO vo, int idx);
 }
