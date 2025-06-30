@@ -28,6 +28,7 @@ public class BoardServiceImpl implements BoardService {
         BoardSaveResVO vo = new BoardSaveResVO();
         vo.setTitle(entity.getTitle());
         vo.setContent(entity.getContent());
+        vo.setUpdateYmd(entity.getUpdateYmd());
         return ResponseEntity.ok(vo);
     }
     @Override
